@@ -1,12 +1,57 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Header from "./Header";
+import { ValidateData } from "../utils/ValidateData";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import {auth} from "../utils/firebase"
 
 const Login = () => {
   const[isLogin, setIsLogin] = useState(true);
+  const[errorMessage, setErrorMessage] = useState(true);
+
+  const email = useRef(null);
+  const password = useRef(null);
 
   const toggleSignIn = () => {
     setIsLogin(!isLogin);
   }
+
+  const signInHandler = () => {
+    const validateMessage = ValidateData(email.current.value, password.current.value);
+    setErrorMessage(validateMessage);
+
+    if(validateMessage) return; 
+
+    if(!isLogin){
+      createUserWithEmailAndPassword(auth, email.current.value, password.current.value)
+      .then((userCredential) => {
+        // Signed up 
+        const user = userCredential.user;
+        console.log(user);
+        // ...
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        setErrorMessage(errorCode + "-" + errorMessage);
+        // ..
+      });
+    }else {
+      signInWithEmailAndPassword(auth, email.current.value, password.current.value)
+      .then((userCredential) => {
+        // Signed up 
+        const user = userCredential.user;
+        console.log(user);
+        // ...
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        setErrorMessage(errorCode + "-" + errorMessage);
+        // ..
+      });
+    }
+  }
+  
 
   return (
     <div>
@@ -18,21 +63,24 @@ const Login = () => {
         />
       </div>
 
-      <form className="w-1/4 absolute p-8 px-10 bg-black bg-opacity-80 mx-auto my-40 right-0 left-0 rounded-md">
+      <form onSubmit={(e) => e.preventDefault()} className="w-1/4 absolute p-8 px-10 bg-black bg-opacity-80 mx-auto my-40 right-0 left-0 rounded-md">
         <h2 className="text-white text-3xl font-semibold">{isLogin ? "Sign In" : "Sign Up"}
         </h2>
-        {!isLogin && <input type="text" className="p-2 my-5 w-full rounded-lg bg-gray-700" placeholder="Enter Full Name"/>}
+        {!isLogin && <input type="text" className="p-2 my-5 w-full rounded-lg bg-gray-700 text-white" placeholder="Enter Full Name"/>}
         <input
+          ref={email}
           type="email"
-          className="p-2 my-5 w-full rounded-lg bg-gray-700"
+          className="p-2 my-5 w-full rounded-lg bg-gray-700 text-white"
           placeholder="Enter email"
         />
         <input
+          ref={password}
           type="password"
-          className="p-2 my-5 w-full rounded-lg bg-gray-700"
+          className="p-2 mt-5 mb-3 w-full rounded-lg bg-gray-700 text-white"
           placeholder="Enter password"
         />
-        <button className="rounded-lg bg-red-500 w-full py-2 mb-2 font-bold text-xl text-white hover:bg-opacity-70">
+        <p className="text-red-500 mb-4">{errorMessage}</p>
+        <button onClick={signInHandler} className="rounded-lg bg-red-500 w-full py-2 mb-2 font-bold text-xl text-white hover:bg-opacity-70">
         {isLogin ? "Sign In" : "Sign up"}
         </button>
         <p onClick={toggleSignIn} className="text-white text-sm mb-3">
