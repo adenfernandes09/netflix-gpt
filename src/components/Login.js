@@ -3,9 +3,9 @@ import Header from "./Header";
 import { ValidateData } from "../utils/ValidateData";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "firebase/auth";
 import {auth} from "../utils/firebase"
-import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
+import { SIGN_IN_BG, USER_LOGO } from "../utils/Constants";
 
 const Login = () => {
   const[isLogin, setIsLogin] = useState(true);
@@ -16,7 +16,6 @@ const Login = () => {
   const password = useRef(null);
 
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const toggleSignIn = () => {
     setIsLogin(!isLogin);
@@ -34,12 +33,10 @@ const Login = () => {
         // Signed up 
         const user = userCredential.user;
         updateProfile(auth.currentUser, {
-          displayName: name.current.value, photoURL: "https://lh3.googleusercontent.com/a/ACg8ocI-a0ymdoDIxpUMPaBfcXHQ8tyiLxOg5-BIWkGeDUgCEp5yNFJF=s576-c-no"
+          displayName: name.current.value, photoURL: USER_LOGO
         }).then(() => {
-          console.log(auth);
           const {uid, email, displayName, photoURL} = auth.currentUser;
           dispatch(addUser({uid: uid, email: email, displayName: displayName, photoURL: photoURL}))
-          navigate("/browse")
         }).catch((error) => {
           setErrorMessage(error.messsage)
         });
@@ -54,7 +51,6 @@ const Login = () => {
       .then((userCredential) => {
         // Sign In
         const user = userCredential.user;
-        navigate("/browse");
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -70,7 +66,7 @@ const Login = () => {
       <Header />
       <div className="bg-black absolute bg-opacity-70">
         <img
-          src="https://assets.nflxext.com/ffe/siteui/vlv3/729ce5c2-d831-436a-8c9d-f38fea0b99b3/web/IE-en-20241209-TRIFECTA-perspective_adb9da5e-2fb8-47fe-ac98-f0cbb7fb73c0_medium.jpg"
+          src={SIGN_IN_BG}
           alt="login-background"
         />
       </div>
