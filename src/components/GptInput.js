@@ -59,7 +59,7 @@ const GptInput = () => {
           </button>
     </form>
         </div>
-      </div>
+        </div>
   );
 };
 
