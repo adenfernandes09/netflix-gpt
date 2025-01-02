@@ -68,3 +68,11 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+
+//Things to do:
+- Create GPT Search Button and Search Section - Done
+- GPT section should not display the Main and the Secondary Containers when it is clicked on. Toggle functionality. - Done
+- Create Components for Search and the Suggestions
+- Create a dynamic select dropdown for language
+- Language should come from constant file
