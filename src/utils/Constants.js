@@ -10,4 +10,6 @@ export const options = {
     }
   };
   
-  export const IMAGE_URL = "https://image.tmdb.org/t/p/w500/"
+  export const IMAGE_URL = "https://image.tmdb.org/t/p/w500/";
+
+  export const SUPPORTED_LANG = [{identifier: "en", name: "English"}, {identifier: "fr", name: "French"}, {identifier: "de", name: "German"}, ]

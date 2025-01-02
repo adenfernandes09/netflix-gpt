@@ -1,5 +1,5 @@
 import moreInfo from "../assets/more-info.svg";
-import play from "../assets/play-button.svg"
+import play from "../assets/play-button.svg";
 
 
 const VideoTitle = ({title, description}) => {
